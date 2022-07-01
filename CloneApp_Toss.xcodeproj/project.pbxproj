@@ -10,9 +10,11 @@
 		2188A776286EB03A00AE38AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A775286EB03A00AE38AE /* AppDelegate.swift */; };
 		2188A778286EB03A00AE38AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A777286EB03A00AE38AE /* SceneDelegate.swift */; };
 		2188A77A286EB03A00AE38AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A779286EB03A00AE38AE /* ViewController.swift */; };
-		2188A77D286EB03A00AE38AE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2188A77B286EB03A00AE38AE /* Main.storyboard */; };
 		2188A77F286EB03B00AE38AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2188A77E286EB03B00AE38AE /* Assets.xcassets */; };
 		2188A782286EB03B00AE38AE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2188A780286EB03B00AE38AE /* LaunchScreen.storyboard */; };
+		2188A78B286EB0E700AE38AE /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2188A78A286EB0E700AE38AE /* SnapKit */; };
+		21A4D5E9286F00BC001D24C5 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 21A4D5E8286F00BC001D24C5 /* .swiftlint.yml */; };
+		5279AFED38710560B7E29FF5 /* libPods-CloneApp_Toss.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 32533A7A58AFAA3E6FD464BA /* libPods-CloneApp_Toss.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +22,13 @@
 		2188A775286EB03A00AE38AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2188A777286EB03A00AE38AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2188A779286EB03A00AE38AE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		2188A77C286EB03A00AE38AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2188A77E286EB03B00AE38AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2188A781286EB03B00AE38AE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2188A783286EB03B00AE38AE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		21A4D5E8286F00BC001D24C5 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		32533A7A58AFAA3E6FD464BA /* libPods-CloneApp_Toss.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CloneApp_Toss.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B0218F2E62076D3C68DF531A /* Pods-CloneApp_Toss.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloneApp_Toss.debug.xcconfig"; path = "Target Support Files/Pods-CloneApp_Toss/Pods-CloneApp_Toss.debug.xcconfig"; sourceTree = "<group>"; };
+		DEBD6BCB6860593EA769577B /* Pods-CloneApp_Toss.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloneApp_Toss.release.xcconfig"; path = "Target Support Files/Pods-CloneApp_Toss/Pods-CloneApp_Toss.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +36,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2188A78B286EB0E700AE38AE /* SnapKit in Frameworks */,
+				5279AFED38710560B7E29FF5 /* libPods-CloneApp_Toss.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2071D708526430EE102CC9F7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B0218F2E62076D3C68DF531A /* Pods-CloneApp_Toss.debug.xcconfig */,
+				DEBD6BCB6860593EA769577B /* Pods-CloneApp_Toss.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		2188A769286EB03A00AE38AE = {
 			isa = PBXGroup;
 			children = (
 				2188A774286EB03A00AE38AE /* CloneApp_Toss */,
 				2188A773286EB03A00AE38AE /* Products */,
+				2071D708526430EE102CC9F7 /* Pods */,
+				FA299C96A49193A1FF729970 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,12 +77,20 @@
 				2188A775286EB03A00AE38AE /* AppDelegate.swift */,
 				2188A777286EB03A00AE38AE /* SceneDelegate.swift */,
 				2188A779286EB03A00AE38AE /* ViewController.swift */,
-				2188A77B286EB03A00AE38AE /* Main.storyboard */,
 				2188A77E286EB03B00AE38AE /* Assets.xcassets */,
 				2188A780286EB03B00AE38AE /* LaunchScreen.storyboard */,
 				2188A783286EB03B00AE38AE /* Info.plist */,
+				21A4D5E8286F00BC001D24C5 /* .swiftlint.yml */,
 			);
 			path = CloneApp_Toss;
+			sourceTree = "<group>";
+		};
+		FA299C96A49193A1FF729970 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				32533A7A58AFAA3E6FD464BA /* libPods-CloneApp_Toss.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,15 +100,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2188A786286EB03B00AE38AE /* Build configuration list for PBXNativeTarget "CloneApp_Toss" */;
 			buildPhases = (
+				D17691614BF255F76ABE8CED /* [CP] Check Pods Manifest.lock */,
 				2188A76E286EB03A00AE38AE /* Sources */,
 				2188A76F286EB03A00AE38AE /* Frameworks */,
 				2188A770286EB03A00AE38AE /* Resources */,
+				212DAA5E286EE7B40058866F /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = CloneApp_Toss;
+			packageProductDependencies = (
+				2188A78A286EB0E700AE38AE /* SnapKit */,
+			);
 			productName = CloneApp_Toss;
 			productReference = 2188A772286EB03A00AE38AE /* CloneApp_Toss.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +142,9 @@
 				Base,
 			);
 			mainGroup = 2188A769286EB03A00AE38AE;
+			packageReferences = (
+				2188A789286EB0E700AE38AE /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 2188A773286EB03A00AE38AE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -125,13 +159,55 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21A4D5E9286F00BC001D24C5 /* .swiftlint.yml in Resources */,
 				2188A782286EB03B00AE38AE /* LaunchScreen.storyboard in Resources */,
 				2188A77F286EB03B00AE38AE /* Assets.xcassets in Resources */,
-				2188A77D286EB03A00AE38AE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		212DAA5E286EE7B40058866F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint autocorrect\n";
+		};
+		D17691614BF255F76ABE8CED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CloneApp_Toss-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2188A76E286EB03A00AE38AE /* Sources */ = {
@@ -147,14 +223,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		2188A77B286EB03A00AE38AE /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2188A77C286EB03A00AE38AE /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2188A780286EB03B00AE38AE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -282,6 +350,7 @@
 		};
 		2188A787286EB03B00AE38AE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0218F2E62076D3C68DF531A /* Pods-CloneApp_Toss.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -292,9 +361,9 @@
 				INFOPLIST_FILE = CloneApp_Toss/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -310,6 +379,7 @@
 		};
 		2188A788286EB03B00AE38AE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DEBD6BCB6860593EA769577B /* Pods-CloneApp_Toss.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -320,9 +390,9 @@
 				INFOPLIST_FILE = CloneApp_Toss/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -358,6 +428,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2188A789286EB0E700AE38AE /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2188A78A286EB0E700AE38AE /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2188A789286EB0E700AE38AE /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2188A76A286EB03A00AE38AE /* Project object */;
 }
