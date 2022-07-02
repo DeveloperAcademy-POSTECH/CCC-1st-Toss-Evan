@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum Item: Hashable {
+    case asset(AssetInfo)
+    case merchandise(MerchandiseInfo)
+}
+
 struct AssetInfo: Hashable {
     var name: String
     var amount: Int
@@ -24,5 +29,21 @@ extension AssetInfo {
         AssetInfo(name: "세이프박스", amount: 0, canRemit: false, icon: .assetIcon.kakao),
         AssetInfo(name: "토스뱅크 돈 모으기", amount: 1000000, canRemit: false, icon: .assetIcon.toss),
         AssetInfo(name: "현대카드", amount: 4860, canRemit: true, icon: .assetIcon.hyndai)
+    ]
+}
+
+struct MerchandiseInfo: Hashable {
+    var subtitle: String
+    var title: String
+    var icon: UIImage
+    private let identifier = UUID()
+}
+
+extension MerchandiseInfo {
+    static let samples = [
+        MerchandiseInfo(subtitle: "1분 만에", title: "신용 점수\n올리기", icon: .assetIcon.beliefUp),
+        MerchandiseInfo(subtitle: "안전하게", title: "신용점수\n보기", icon: .assetIcon.beliefView),
+        MerchandiseInfo(subtitle: "최근", title: "캐시백\n받기", icon: .assetIcon.cashback),
+        MerchandiseInfo(subtitle: "인기", title: "더보기", icon: .assetIcon.more)
     ]
 }
