@@ -50,7 +50,15 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    func configureCell(data: AssetInfo) {
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureCell()
+    }
+    required init?(coder: NSCoder) {
+        fatalError("not implemnted")
+    }
+    
+    func configureCell(data: AssetInfo? = nil) {
         [nameLabel, amountLabel].forEach { stackView.addArrangedSubview($0) }
         [stackView, logoImageView, remitButton].forEach { addSubview($0) }
             
@@ -71,7 +79,9 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
             $0.centerY.equalToSuperview()
         }
         
-        updateCell(data: data)
+        if let data = data {
+            updateCell(data: data)
+        }
     }
     
     func updateCell(data: AssetInfo) {

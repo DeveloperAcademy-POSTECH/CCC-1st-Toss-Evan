@@ -10,61 +10,94 @@ import SnapKit
 
 class ViewController: UIViewController {
     
+    enum Section: Int, Hashable, CaseIterable, CustomStringConvertible {
+        case tossBank, asset, consume, merchandise
+        
+        var description: String {
+            switch self {
+            case .tossBank:
+                return "토스뱅크"
+            case .asset:
+                return "자산"
+            case .consume:
+                return "소비"
+            case .merchandise:
+                return "상품"
+            }
+        }
+    }
+    
+    var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
+    
     var samples = AssetInfo.samples
     
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        
-        collectionView.isScrollEnabled = false
-        collectionView.backgroundColor = .theme.groupedBackground
-        
-        collectionView.register(
-            AssetInfoCollectionViewCell.self,
-            forCellWithReuseIdentifier: AssetInfoCollectionViewCell.identifier
-        )
-        
-        return collectionView
-    }()
+    var collectionView: UICollectionView!
+
         
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
         configureNavbar()
+        configureHierarchy()
         configureTabBar()
-        view.addSubview(collectionView)
-        collectionView.snp.makeConstraints{
-            $0.leading.equalToSuperview().inset(16)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.top.equalTo(view.safeAreaLayoutGuide).inset(12)
-            $0.height.equalTo(samples.count * 80 + 32)
-        }
-        collectionView.layer.cornerRadius = 20
     }
 }
 
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        7
+extension ViewController: UICollectionViewDelegate {
+    func configureHierarchy() {
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.backgroundColor = .clear
+        collectionView.delegate = self
+        collectionView.layer.cornerRadius = 20
+        view.addSubview(collectionView)
+        
+        collectionView.snp.makeConstraints{
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        
+        let cellRegistration = UICollectionView.CellRegistration<AssetInfoCollectionViewCell, AssetInfo> { (cell, indexPath, assetInfo) in
+            cell.nameLabel.text = assetInfo.name
+            cell.amountLabel.text = "\(assetInfo.amount)"
+            cell.logoImageView.image = assetInfo.icon
+            cell.remitButton.isHidden = !assetInfo.canRemit
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, AssetInfo>(collectionView: collectionView) { (collectionView, indexPath, item) -> AssetInfoCollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+        
+//        let sections = Section.allCases
+        var snapshot = NSDiffableDataSourceSnapshot<Section, AssetInfo>()
+        snapshot.appendSections([Section.asset])
+        snapshot.appendItems(samples)
+        
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AssetInfoCollectionViewCell.identifier, for: indexPath) as! AssetInfoCollectionViewCell
-
-        cell.configureCell(data: samples[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.frame.width - 48, height: 80)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
+    func createLayout() -> UICollectionViewLayout {
+        
+        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            
+//            guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
+            
+            let section: NSCollectionLayoutSection
+            
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+            
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+            
+            section = NSCollectionLayoutSection(group: group)
+            
+            return section
+        }
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
 }
 

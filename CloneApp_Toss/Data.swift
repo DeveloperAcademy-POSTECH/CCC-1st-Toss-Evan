@@ -7,11 +7,12 @@
 
 import UIKit
 
-struct AssetInfo {
+struct AssetInfo: Hashable {
     var name: String
     var amount: Int
     var canRemit: Bool
     var icon: UIImage
+    private let identifier = UUID()
 }
 
 extension AssetInfo {
