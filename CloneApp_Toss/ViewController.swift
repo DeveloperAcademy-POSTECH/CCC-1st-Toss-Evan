@@ -70,6 +70,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
 
 extension ViewController {
     private func configureNavbar() {
+        
         // Left
         let iconButton = UIButton(type: .custom)
         iconButton.setImage(.icon.logo, for: .normal)
