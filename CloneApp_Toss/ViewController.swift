@@ -13,12 +13,11 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
-        configureNavbar()   
+        configureNavbar()
+        configureTabBar()
     }
     
-    @objc private func test() {
-        
-    }
+    
 }
 
 extension ViewController {
@@ -66,5 +65,80 @@ extension ViewController {
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: stackView)
         ]
+    }
+    
+    private func configureTabBar() {
+        let stackView = UIStackView(arrangedSubviews: [])
+        
+        TabBarItem.allCases.forEach { item in
+            
+            let tabImage = UIImageView(image: item.image)
+            tabImage.snp.makeConstraints {
+                $0.width.equalTo(20)
+                $0.height.equalTo(tabImage.snp.width)
+            }
+            tabImage.contentMode = .scaleAspectFit
+            let tabLabel = UILabel(frame: .zero)
+            tabLabel.text = item.name
+            tabLabel.font = .preferredFont(forTextStyle: .caption1, compatibleWith: .none)
+            tabLabel.textColor = .theme.secondary
+            
+            let tabButton = UIStackView(arrangedSubviews: [tabImage, tabLabel])
+            tabButton.axis = .vertical
+            tabButton.alignment = .center
+            tabButton.spacing = 2
+            
+            stackView.addArrangedSubview(tabButton)
+        }
+        
+        stackView.distribution = .equalSpacing
+        stackView.axis = .horizontal
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 40, bottom: 0, right: 40)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.backgroundColor = .theme.groupedBackground
+        stackView.layer.cornerRadius = 20
+        self.view.addSubview(stackView)
+        stackView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+    }
+}
+
+enum TabBarItem: String, CaseIterable {
+    case home
+    case benefit
+    case remit
+    case stock
+    case extra
+    
+    var name: String {
+        switch self {
+        case .home:
+            return "홈"
+        case .benefit:
+            return "혜택"
+        case .remit:
+            return "송금"
+        case .stock:
+            return "주식"
+        case .extra:
+            return "전체"
+        }
+    }
+    
+    var image: UIImage {
+        switch self {
+        case .home:
+            return UIImage(named: "Home")!
+        case .benefit:
+            return UIImage(named: "Benefit")!
+        case .remit:
+            return UIImage(named: "Remit")!
+        case .stock:
+            return UIImage(named: "Stock")!
+        case .extra:
+            return UIImage(named: "Hamburger")!
+        }
     }
 }
