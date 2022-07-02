@@ -13,7 +13,19 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Toss", style: .plain, target: nil, action: #selector(test))
+        
+        let iconButton = UIButton(type: .custom)
+        iconButton.setImage(.icon.logo, for: .normal)
+        iconButton.snp.makeConstraints {
+            $0.width.equalTo(83)
+            $0.height.equalTo(22)
+        }
+        iconButton.imageView?.contentMode = .scaleAspectFit
+        let leftStackView = UIStackView(arrangedSubviews: [iconButton])
+        leftStackView.isLayoutMarginsRelativeArrangement = true
+        leftStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        let iconBarItem = UIBarButtonItem(customView: leftStackView)
+        self.navigationItem.leftBarButtonItem = iconBarItem
             
         let talkButton = UIButton(type: .custom)
         talkButton.setImage(.icon.talk, for: .normal)
@@ -49,4 +61,5 @@ class ViewController: UIViewController {
         
     }
 }
+
 
