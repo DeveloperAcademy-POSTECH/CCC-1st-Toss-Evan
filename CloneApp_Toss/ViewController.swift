@@ -72,8 +72,10 @@ extension ViewController: UICollectionViewDelegate {
         
 //        let sections = Section.allCases
         var snapshot = NSDiffableDataSourceSnapshot<Section, AssetInfo>()
-        snapshot.appendSections([Section.asset])
-        snapshot.appendItems(samples)
+        [Section.tossBank, Section.asset].forEach {
+            snapshot.appendSections([$0])
+            snapshot.appendItems($0 == .tossBank ? [samples[0], samples[1]] : [samples[2], samples[3]])
+        }
         
         dataSource.apply(snapshot, animatingDifferences: false)
     }
@@ -94,10 +96,15 @@ extension ViewController: UICollectionViewDelegate {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
             
             return section
         }
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("hi")
     }
 }
 
