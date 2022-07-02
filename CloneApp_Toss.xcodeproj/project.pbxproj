@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		213778D4286F463700CF974E /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213778D3286F463700CF974E /* Color.swift */; };
+		2174B06B287025830010E9BC /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2174B06A287025830010E9BC /* Font.swift */; };
 		2188A776286EB03A00AE38AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A775286EB03A00AE38AE /* AppDelegate.swift */; };
 		2188A778286EB03A00AE38AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A777286EB03A00AE38AE /* SceneDelegate.swift */; };
 		2188A77A286EB03A00AE38AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A779286EB03A00AE38AE /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		213778D3286F463700CF974E /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		2174B06A287025830010E9BC /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		2188A772286EB03A00AE38AE /* CloneApp_Toss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloneApp_Toss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2188A775286EB03A00AE38AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2188A777286EB03A00AE38AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				2188A777286EB03A00AE38AE /* SceneDelegate.swift */,
 				2188A779286EB03A00AE38AE /* ViewController.swift */,
 				213778D3286F463700CF974E /* Color.swift */,
+				2174B06A287025830010E9BC /* Font.swift */,
 				2188A77E286EB03B00AE38AE /* Assets.xcassets */,
 				2188A780286EB03B00AE38AE /* LaunchScreen.storyboard */,
 				2188A783286EB03B00AE38AE /* Info.plist */,
@@ -219,6 +222,7 @@
 			files = (
 				2188A77A286EB03A00AE38AE /* ViewController.swift in Sources */,
 				213778D4286F463700CF974E /* Color.swift in Sources */,
+				2174B06B287025830010E9BC /* Font.swift in Sources */,
 				2188A776286EB03A00AE38AE /* AppDelegate.swift in Sources */,
 				2188A778286EB03A00AE38AE /* SceneDelegate.swift in Sources */,
 			);

@@ -80,13 +80,14 @@ extension ViewController {
             tabImage.contentMode = .scaleAspectFit
             let tabLabel = UILabel(frame: .zero)
             tabLabel.text = item.name
-            tabLabel.font = .preferredFont(forTextStyle: .caption1, compatibleWith: .none)
+            tabLabel.font = .preferredFont(for: .caption1, weight: .semibold)
+            
             tabLabel.textColor = .theme.secondary
             
             let tabButton = UIStackView(arrangedSubviews: [tabImage, tabLabel])
             tabButton.axis = .vertical
             tabButton.alignment = .center
-            tabButton.spacing = 2
+            tabButton.spacing = 4
             
             stackView.addArrangedSubview(tabButton)
         }
