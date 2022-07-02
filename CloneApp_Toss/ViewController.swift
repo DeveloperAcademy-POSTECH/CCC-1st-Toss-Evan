@@ -9,11 +9,21 @@ import UIKit
 import SnapKit
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
+        configureNavbar()   
+    }
+    
+    @objc private func test() {
         
+    }
+}
+
+extension ViewController {
+    private func configureNavbar() {
+        // Left
         let iconButton = UIButton(type: .custom)
         iconButton.setImage(.icon.logo, for: .normal)
         iconButton.snp.makeConstraints {
@@ -26,7 +36,8 @@ class ViewController: UIViewController {
         leftStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         let iconBarItem = UIBarButtonItem(customView: leftStackView)
         self.navigationItem.leftBarButtonItem = iconBarItem
-            
+        
+        // Right
         let talkButton = UIButton(type: .custom)
         talkButton.setImage(.icon.talk, for: .normal)
         talkButton.snp.makeConstraints {
@@ -56,10 +67,4 @@ class ViewController: UIViewController {
             UIBarButtonItem(customView: stackView)
         ]
     }
-
-    @objc private func test() {
-        
-    }
 }
-
-
