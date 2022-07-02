@@ -9,13 +9,24 @@ import Foundation
 import UIKit
 
 extension UIColor {
-    static let theme = TossTheme()
+    static let theme = TossColorTheme()
 }
 
-struct TossTheme {
+extension UIImage {
+    static let icon = TossImageTheme()
+}
+
+struct TossColorTheme {
     let blue = UIColor(named: "TossBlue")!
     let background = UIColor(named: "TossBackground")!
     let groupedBackground = UIColor(named: "TossGroupedBackground")!
     let secondary = UIColor(named: "TossSecondary")!
     let tertiary = UIColor(named: "TossTertiary")!
+}
+
+struct TossImageTheme {
+    let logo = UIImage(named: "Logo")!
+    let plus = UIImage(named: "Plus")!
+    let ball = UIImage(named: "Noti")!
+    let talk = UIImage(named: "Talk")!
 }
