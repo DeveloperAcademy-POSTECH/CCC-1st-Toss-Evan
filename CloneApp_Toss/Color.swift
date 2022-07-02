@@ -25,6 +25,7 @@ struct TossColorTheme {
 }
 
 struct TossImageTheme {
+    let plus = UIImage(named: "Plus")!
     let ball = UIImage(named: "Noti")!
     let talk = UIImage(named: "Talk")!
 }
