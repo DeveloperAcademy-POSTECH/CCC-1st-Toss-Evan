@@ -28,7 +28,7 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
     
     lazy var amountLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = .preferredFont(for: .headline, weight: .bold)
+        label.font = .preferredFont(for: .headline, weight: .semibold)
         label.textColor = .theme.darkGray
         return label
     }()
@@ -44,6 +44,9 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
         button.setTitle("송금", for: .normal)
         button.setTitleColor(.theme.lightGray, for: .normal)
         button.titleLabel?.font = .preferredFont(for: .footnote, weight: .semibold)
+        button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
+        button.backgroundColor = .theme.tertiary
+        button.layer.cornerRadius = 6
         return button
     }()
     
@@ -53,7 +56,7 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
             
         logoImageView.snp.makeConstraints{
             $0.leading.equalToSuperview()
-            $0.height.equalToSuperview().multipliedBy(0.4)
+            $0.height.equalToSuperview().multipliedBy(0.5)
             $0.width.equalTo(logoImageView.snp.height)
             $0.centerY.equalToSuperview()
         }
@@ -73,7 +76,7 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
     
     func updateCell(data: AssetInfo) {
         nameLabel.text = data.name
-        amountLabel.text = "\(data.amount)"
+        amountLabel.text = "\(data.amount) 원"
         logoImageView.image = data.icon
         remitButton.isHidden = !data.canRemit
     }

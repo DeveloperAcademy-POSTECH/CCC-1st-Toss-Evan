@@ -39,8 +39,8 @@ class ViewController: UIViewController {
         collectionView.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(16)
             $0.trailing.equalToSuperview().inset(16)
-            $0.top.equalToSuperview().inset(100)
-            $0.height.equalTo(samples.count * 80)
+            $0.top.equalTo(view.safeAreaLayoutGuide).inset(12)
+            $0.height.equalTo(samples.count * 80 + 32)
         }
         collectionView.layer.cornerRadius = 20
     }
@@ -61,6 +61,10 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: collectionView.frame.width - 48, height: 80)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 16, left: 0, bottom: 16, right: 0)
     }
 }
 
