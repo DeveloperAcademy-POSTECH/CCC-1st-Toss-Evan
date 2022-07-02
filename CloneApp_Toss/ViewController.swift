@@ -10,14 +10,58 @@ import SnapKit
 
 class ViewController: UIViewController {
     
+    var samples = AssetInfo.samples
+    
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
+        collectionView.isScrollEnabled = false
+        collectionView.backgroundColor = .theme.groupedBackground
+        
+        collectionView.register(
+            AssetInfoCollectionViewCell.self,
+            forCellWithReuseIdentifier: AssetInfoCollectionViewCell.identifier
+        )
+        
+        return collectionView
+    }()
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
         configureNavbar()
         configureTabBar()
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(100)
+            $0.height.equalTo(samples.count * 80)
+        }
+        collectionView.layer.cornerRadius = 20
+    }
+}
+
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        7
     }
     
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AssetInfoCollectionViewCell.identifier, for: indexPath) as! AssetInfoCollectionViewCell
+
+        cell.configureCell(data: samples[indexPath.row])
+        return cell
+    }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: collectionView.frame.width - 48, height: 80)
+    }
 }
 
 extension ViewController {
@@ -102,6 +146,8 @@ extension ViewController {
         stackView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
         }
     }
 }

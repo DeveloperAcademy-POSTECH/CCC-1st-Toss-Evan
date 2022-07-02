@@ -23,6 +23,8 @@ struct TossColorTheme {
     let groupedBackground = UIColor(named: "TossGroupedBackground")!
     let secondary = UIColor(named: "TossSecondary")!
     let tertiary = UIColor(named: "TossTertiary")!
+    let darkGray = UIColor(named: "TossDarkGray")!
+    let lightGray = UIColor(named: "TossLightGray")!
 }
 
 struct TossImageTheme {
@@ -33,10 +35,10 @@ struct TossImageTheme {
 }
 
 struct TossAssetImageTheme {
-    let toss = UIImage(named: "Logo")!
-    let kb = UIImage(named: "Plus")!
-    let ibk = UIImage(named: "Noti")!
-    let kakao = UIImage(named: "Talk")!
-    let collect = UIImage(named: "Talk")!
-    let hyndai = UIImage(named: "Talk")!
+    let toss = UIImage(named: "Toss")!
+    let kb = UIImage(named: "Kb")!
+    let ibk = UIImage(named: "IBK")!
+    let kakao = UIImage(named: "Kakao")!
+    let collect = UIImage(named: "Toss")!
+    let hyndai = UIImage(named: "Toss")!
 }
