@@ -13,12 +13,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
-        configureNavbar()   
+        configureNavbar()
     }
     
-    @objc private func test() {
-        
-    }
+    
 }
 
 extension ViewController {
