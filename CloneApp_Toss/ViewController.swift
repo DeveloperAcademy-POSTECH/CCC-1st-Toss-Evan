@@ -80,19 +80,23 @@ extension ViewController {
             tabImage.contentMode = .scaleAspectFit
             let tabLabel = UILabel(frame: .zero)
             tabLabel.text = item.name
+            tabLabel.font = .preferredFont(forTextStyle: .caption1, compatibleWith: .none)
+            tabLabel.textColor = .theme.secondary
             
             let tabButton = UIStackView(arrangedSubviews: [tabImage, tabLabel])
             tabButton.axis = .vertical
             tabButton.alignment = .center
-            tabButton.spacing = 6
+            tabButton.spacing = 2
             
             stackView.addArrangedSubview(tabButton)
         }
         
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
-        stackView.layoutMargins = UIEdgeInsets(top: 20, left: 30, bottom: 0, right: 30)
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 40, bottom: 0, right: 40)
         stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.backgroundColor = .theme.groupedBackground
+        stackView.layer.cornerRadius = 20
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
             $0.width.equalToSuperview()
