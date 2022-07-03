@@ -26,20 +26,22 @@ class ViewController: UIViewController {
             }
         }
     }
+    static let sectionHeaderElementKind = "section-header-element-kind"
     static let sectionBackgroundElementKind = "section-background-element-kind"
     var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
     
     var samples = AssetInfo.samples
     
     var collectionView: UICollectionView!
-
+    let stackView = UIStackView(arrangedSubviews: [])
         
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
         configureNavbar()
-        configureHierarchy()
         configureTabBar()
+        configureHierarchy()
+        view.bringSubviewToFront(stackView)
     }
 }
 
@@ -47,6 +49,7 @@ extension ViewController: UICollectionViewDelegate {
     func configureHierarchy() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.layer.cornerRadius = 20
@@ -55,8 +58,8 @@ extension ViewController: UICollectionViewDelegate {
         collectionView.snp.makeConstraints{
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
+            $0.bottom.equalTo(stackView.snp.top)
         }
         
         let cellRegistration = UICollectionView.CellRegistration<AssetInfoCollectionViewCell, AssetInfo> { (cell, indexPath, assetInfo) in
@@ -66,15 +69,28 @@ extension ViewController: UICollectionViewDelegate {
             cell.remitButton.isHidden = !assetInfo.canRemit
         }
         
+        let headerRegistration = UICollectionView.SupplementaryRegistration
+        <TitleSupplementaryView>(elementKind: ViewController.sectionHeaderElementKind) {
+            (supplementaryView, string, indexPath) in
+            supplementaryView.label.text = Section(rawValue: indexPath.section)?.description
+        }
+        
         dataSource = UICollectionViewDiffableDataSource<Section, AssetInfo>(collectionView: collectionView) { (collectionView, indexPath, item) -> AssetInfoCollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+        
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            return self.collectionView.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration, for: index)
         }
         
 //        let sections = Section.allCases
         var snapshot = NSDiffableDataSourceSnapshot<Section, AssetInfo>()
         [Section.tossBank, Section.asset].forEach {
             snapshot.appendSections([$0])
-            snapshot.appendItems($0 == .tossBank ? [samples[0], samples[1]] : [samples[2], samples[3]])
+            if $0 == .asset {
+                snapshot.appendItems(samples)
+            }
         }
         
         dataSource.apply(snapshot, animatingDifferences: false)
@@ -96,12 +112,19 @@ extension ViewController: UICollectionViewDelegate {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
             
             let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(
                 elementKind: ViewController.sectionBackgroundElementKind)
             sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
             section.decorationItems = [sectionBackgroundDecoration]
+            
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: sectionIndex == 0 ? .estimated(72) : .estimated(60))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: ViewController.sectionHeaderElementKind, alignment: .top)
+            section.boundarySupplementaryItems = [sectionHeader]
             
             return section
         }
@@ -166,7 +189,6 @@ extension ViewController {
     }
     
     private func configureTabBar() {
-        let stackView = UIStackView(arrangedSubviews: [])
         
         TabBarItem.allCases.forEach { item in
             

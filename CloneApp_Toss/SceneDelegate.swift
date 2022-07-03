@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         navigationApperance.backgroundEffect = UIBlurEffect(style: .light)
         navigationApperance.shadowColor = .clear
         navigationController.navigationBar.standardAppearance = navigationApperance
-        UINavigationBar.appearance().scrollEdgeAppearance = navigationApperance
+//        UINavigationBar.appearance().scrollEdgeAppearance = navigationApperance
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
