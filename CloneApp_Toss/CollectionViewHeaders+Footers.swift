@@ -15,7 +15,16 @@ class TitleHeaderSupplementaryView: UICollectionReusableView {
         label.font = .preferredFont(for: .title2, weight: .bold)
         return label
     }()
-
+    
+    lazy var chevron: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        
+        let image = UIImage(systemName: "chevron.forward", withConfiguration: UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold))!
+        imageView.tintColor = .theme.secondary
+        imageView.image = image
+        
+        return imageView
+    }()
     
     static let reuseIdentifier = "titleHeader-supplementary-reuse-identifier"
 
@@ -30,10 +39,16 @@ class TitleHeaderSupplementaryView: UICollectionReusableView {
 
 extension TitleHeaderSupplementaryView {
     func configure() {
-        addSubview(label)
+        [label, chevron].forEach{ addSubview($0) }
+        
         label.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(24)
             $0.bottom.equalToSuperview().inset(8)
+        }
+        
+        chevron.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(24)
+            $0.centerY.equalTo(label.snp.centerY)
         }
     }
 }
@@ -44,6 +59,16 @@ class TitleCenterSupplementaryView: UICollectionReusableView {
         let label = UILabel()
         label.font = .preferredFont(for: .title2, weight: .bold)
         return label
+    }()
+    
+    lazy var chevron: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        
+        let image = UIImage(systemName: "chevron.forward", withConfiguration: UIImage.SymbolConfiguration(pointSize: 13, weight: .semibold))!
+        imageView.tintColor = .theme.secondary
+        imageView.image = image
+            
+        return imageView
     }()
     
     static let reuseIdentifier = "titleCenter-supplementary-reuse-identifier"
@@ -59,10 +84,16 @@ class TitleCenterSupplementaryView: UICollectionReusableView {
 
 extension TitleCenterSupplementaryView {
     func configure() {
-        addSubview(label)
+        [label, chevron].forEach{ addSubview($0) }
+
         label.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(24)
             $0.centerY.equalToSuperview()
+        }
+        
+        chevron.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(24)
+            $0.centerY.equalTo(label.snp.centerY)
         }
     }
 }

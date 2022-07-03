@@ -190,7 +190,7 @@ extension ViewController: UICollectionViewDelegate {
             }
             
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                    heightDimension: sectionIndex == 0 ? .estimated(72) : .estimated(60))
+                                                    heightDimension: sectionIndex == 0 ? .absolute(84) : .estimated(60))
             
             let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: .absolute(16))
@@ -320,7 +320,7 @@ extension ViewController {
             self?.refreshControl.endRefreshing()
         }
     }
-//    
+//
 //    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 //        if refreshControl.isRefreshing {
 //            refreshControl.endRefreshing()
