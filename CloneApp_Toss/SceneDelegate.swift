@@ -17,6 +17,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
         let mainViewController = ViewController() // 맨 처음 보여줄 ViewController
         let navigationController = UINavigationController(rootViewController: mainViewController)
+        let navigationApperance = UINavigationBarAppearance()
+        navigationApperance.backgroundEffect = UIBlurEffect(style: .light)
+        navigationApperance.shadowColor = .clear
+        navigationController.navigationBar.standardAppearance = navigationApperance
+//        UINavigationBar.appearance().scrollEdgeAppearance = navigationApperance
+        
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
