@@ -26,7 +26,7 @@ class ViewController: UIViewController {
             }
         }
     }
-    
+    static let sectionBackgroundElementKind = "section-background-element-kind"
     var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
     
     var samples = AssetInfo.samples
@@ -96,11 +96,20 @@ extension ViewController: UICollectionViewDelegate {
             let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
             
             section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16)
+            
+            let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(
+                elementKind: ViewController.sectionBackgroundElementKind)
+            sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
+            section.decorationItems = [sectionBackgroundDecoration]
             
             return section
         }
-        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+        let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+        layout.register(
+            SectionBackgroundView.self,
+            forDecorationViewOfKind: ViewController.sectionBackgroundElementKind)
+        return layout
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
