@@ -27,6 +27,8 @@ class ViewController: UIViewController {
         }
     }
     static let sectionHeaderElementKind = "section-header-element-kind"
+    static let sectionCenterHeaderElementKind = "sectionCenter-header-element-kind"
+    static let sectionFooterElementKind = "section-footer-element-kind"
     static let sectionBackgroundElementKind = "section-background-element-kind"
     var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
     
@@ -70,9 +72,20 @@ extension ViewController: UICollectionViewDelegate {
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration
-        <TitleSupplementaryView>(elementKind: ViewController.sectionHeaderElementKind) {
+        <TitleHeaderSupplementaryView>(elementKind: ViewController.sectionHeaderElementKind) {
             (supplementaryView, string, indexPath) in
             supplementaryView.label.text = Section(rawValue: indexPath.section)?.description
+        }
+        
+        let headerCenterRegistration = UICollectionView.SupplementaryRegistration
+        <TitleCenterSupplementaryView>(elementKind: ViewController.sectionCenterHeaderElementKind) {
+            (supplementaryView, string, indexPath) in
+            supplementaryView.label.text = Section(rawValue: indexPath.section)?.description
+        }
+        
+        let footerRegistration = UICollectionView.SupplementaryRegistration
+        <FooterSupplementaryView>(elementKind: ViewController.sectionFooterElementKind) {
+            (supplementaryView, string, indexPath) in
         }
         
         dataSource = UICollectionViewDiffableDataSource<Section, AssetInfo>(collectionView: collectionView) { (collectionView, indexPath, item) -> AssetInfoCollectionViewCell? in
@@ -82,6 +95,17 @@ extension ViewController: UICollectionViewDelegate {
         dataSource.supplementaryViewProvider = { (view, kind, index) in
             return self.collectionView.dequeueConfiguredReusableSupplementary(
                 using: headerRegistration, for: index)
+        }
+        
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            if kind == ViewController.sectionCenterHeaderElementKind {
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerCenterRegistration, for: index)
+            } else if kind == ViewController.sectionHeaderElementKind {
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: index)
+            } else if kind == ViewController.sectionFooterElementKind {
+                return self.collectionView.dequeueConfiguredReusableSupplementary(using: footerRegistration, for: index)
+            }
+            return nil
         }
         
 //        let sections = Section.allCases
@@ -100,7 +124,7 @@ extension ViewController: UICollectionViewDelegate {
         
         let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             
-//            guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
+            guard let sectionKind = Section(rawValue: sectionIndex) else { return nil }
             
             let section: NSCollectionLayoutSection
             
@@ -119,12 +143,23 @@ extension ViewController: UICollectionViewDelegate {
             sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
             section.decorationItems = [sectionBackgroundDecoration]
             
-            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: sectionIndex == 0 ? .estimated(72) : .estimated(60))
+            
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerSize,
-                elementKind: ViewController.sectionHeaderElementKind, alignment: .top)
-            section.boundarySupplementaryItems = [sectionHeader]
+                layoutSize: headerFooterSize,
+                elementKind: sectionKind == .tossBank ? ViewController.sectionCenterHeaderElementKind : ViewController.sectionHeaderElementKind,
+                alignment: .top)
+            
+            let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerFooterSize,
+                elementKind: ViewController.sectionFooterElementKind, alignment: .bottom)
+            
+            if sectionKind == .tossBank {
+                section.boundarySupplementaryItems = [sectionHeader]
+            } else if sectionKind != .merchandise {
+                section.boundarySupplementaryItems = [sectionHeader, sectionFooter]
+            }
             
             return section
         }
@@ -218,6 +253,8 @@ extension ViewController {
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.backgroundColor = .theme.groupedBackground
         stackView.layer.cornerRadius = 20
+        stackView.layer.borderWidth = 0.6
+        stackView.layer.borderColor = UIColor.theme.background.cgColor
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
             $0.width.equalToSuperview()
