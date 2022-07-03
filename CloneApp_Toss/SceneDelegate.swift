@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mainViewController = ViewController() // 맨 처음 보여줄 ViewController
         let navigationController = UINavigationController(rootViewController: mainViewController)
         let navigationApperance = UINavigationBarAppearance()
-        navigationApperance.backgroundEffect = UIBlurEffect(style: .light)
+        navigationApperance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
         navigationApperance.shadowColor = .clear
         navigationController.navigationBar.standardAppearance = navigationApperance
 //        UINavigationBar.appearance().scrollEdgeAppearance = navigationApperance

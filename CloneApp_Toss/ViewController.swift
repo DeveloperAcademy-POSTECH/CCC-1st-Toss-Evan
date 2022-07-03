@@ -26,6 +26,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     static let sectionHeaderElementKind = "section-header-element-kind"
     static let sectionCenterHeaderElementKind = "sectionCenter-header-element-kind"
     static let sectionFooterElementKind = "section-footer-element-kind"
@@ -33,8 +34,24 @@ class ViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     
-    var collectionView: UICollectionView!
-    let stackView = UIStackView(arrangedSubviews: [])
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
+        collectionView.backgroundColor = .clear
+        collectionView.refreshControl = refreshControl
+        collectionView.delegate = self
+        collectionView.layer.cornerRadius = 20
+        return collectionView
+    }()
+    
+    lazy var stackView = UIStackView(arrangedSubviews: [])
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl(frame: .zero)
+        control.addTarget(self, action: #selector(endRefresh), for: .valueChanged)
+        return control
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,16 +61,15 @@ class ViewController: UIViewController {
         configureHierarchy()
         view.bringSubviewToFront(stackView)
     }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        stackView.layer.borderColor = UIColor.theme.background.cgColor
+    }
 }
 
 extension ViewController: UICollectionViewDelegate {
     func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
-        collectionView.backgroundColor = .clear
-        collectionView.delegate = self
-        collectionView.layer.cornerRadius = 20
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints{
@@ -160,7 +176,6 @@ extension ViewController: UICollectionViewDelegate {
             } else {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -288,7 +303,6 @@ extension ViewController {
         stackView.backgroundColor = .theme.groupedBackground
         stackView.layer.cornerRadius = 20
         stackView.layer.borderWidth = 0.6
-        stackView.layer.borderColor = UIColor.theme.background.cgColor
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
             $0.width.equalToSuperview()
@@ -297,6 +311,21 @@ extension ViewController {
             $0.trailing.equalToSuperview()
         }
     }
+}
+
+extension ViewController {
+    
+    @objc func endRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.refreshControl.endRefreshing()
+        }
+    }
+//    
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if refreshControl.isRefreshing {
+//            refreshControl.endRefreshing()
+//        }
+//    }
 }
 
 enum TabBarItem: String, CaseIterable {

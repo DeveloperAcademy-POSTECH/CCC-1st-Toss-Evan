@@ -15,6 +15,7 @@ class TitleHeaderSupplementaryView: UICollectionReusableView {
         label.font = .preferredFont(for: .title2, weight: .bold)
         return label
     }()
+
     
     static let reuseIdentifier = "titleHeader-supplementary-reuse-identifier"
 
@@ -32,7 +33,7 @@ extension TitleHeaderSupplementaryView {
         addSubview(label)
         label.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(24)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(8)
         }
     }
 }
