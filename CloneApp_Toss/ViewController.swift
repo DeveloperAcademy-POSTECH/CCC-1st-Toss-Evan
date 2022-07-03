@@ -30,9 +30,8 @@ class ViewController: UIViewController {
     static let sectionCenterHeaderElementKind = "sectionCenter-header-element-kind"
     static let sectionFooterElementKind = "section-footer-element-kind"
     static let sectionBackgroundElementKind = "section-background-element-kind"
-    var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
     
-    var samples = AssetInfo.samples
+    var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
     
     var collectionView: UICollectionView!
     let stackView = UIStackView(arrangedSubviews: [])
@@ -110,10 +109,12 @@ extension ViewController: UICollectionViewDelegate {
         
 //        let sections = Section.allCases
         var snapshot = NSDiffableDataSourceSnapshot<Section, AssetInfo>()
-        [Section.tossBank, Section.asset].forEach {
+        [Section.tossBank, Section.asset, Section.consume].forEach {
             snapshot.appendSections([$0])
             if $0 == .asset {
-                snapshot.appendItems(samples)
+                snapshot.appendItems(AssetInfo.samples)
+            } else if $0 == .consume {
+                snapshot.appendItems([AssetInfo.consumeSample])
             }
         }
         
@@ -143,16 +144,19 @@ extension ViewController: UICollectionViewDelegate {
             sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
             section.decorationItems = [sectionBackgroundDecoration]
             
-            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: sectionIndex == 0 ? .estimated(72) : .estimated(60))
             
+            let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                    heightDimension: .absolute(16))
+            
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerFooterSize,
+                layoutSize: headerSize,
                 elementKind: sectionKind == .tossBank ? ViewController.sectionCenterHeaderElementKind : ViewController.sectionHeaderElementKind,
                 alignment: .top)
             
             let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerFooterSize,
+                layoutSize: footerSize,
                 elementKind: ViewController.sectionFooterElementKind, alignment: .bottom)
             
             if sectionKind == .tossBank {

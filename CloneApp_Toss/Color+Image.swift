@@ -41,6 +41,7 @@ struct TossAssetImageTheme {
     let kakao = UIImage(named: "Kakao")!
     let collect = UIImage(named: "Toss")!
     let hyndai = UIImage(named: "Toss")!
+    let card = UIImage(named: "Card")!
     
     let beliefUp = UIImage(named: "Toss")!
     let beliefView = UIImage(named: "Toss")!

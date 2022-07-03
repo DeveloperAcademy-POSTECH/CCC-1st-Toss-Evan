@@ -30,6 +30,8 @@ extension AssetInfo {
         AssetInfo(name: "토스뱅크 돈 모으기", amount: 1000000, canRemit: false, icon: .assetIcon.toss),
         AssetInfo(name: "현대카드", amount: 4860, canRemit: true, icon: .assetIcon.hyndai)
     ]
+    
+    static let consumeSample = AssetInfo(name: "이번 달 쓴 금액", amount: 30140, canRemit: true, icon: .assetIcon.card)
 }
 
 struct MerchandiseInfo: Hashable {
