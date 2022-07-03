@@ -31,11 +31,11 @@ class ViewController: UIViewController {
     static let sectionFooterElementKind = "section-footer-element-kind"
     static let sectionBackgroundElementKind = "section-background-element-kind"
     
-    var dataSource: UICollectionViewDiffableDataSource<Section, AssetInfo>! = nil
+    var dataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     
     var collectionView: UICollectionView!
     let stackView = UIStackView(arrangedSubviews: [])
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .theme.background
@@ -63,11 +63,21 @@ extension ViewController: UICollectionViewDelegate {
             $0.bottom.equalTo(stackView.snp.top)
         }
         
-        let cellRegistration = UICollectionView.CellRegistration<AssetInfoCollectionViewCell, AssetInfo> { (cell, indexPath, assetInfo) in
-            cell.nameLabel.text = assetInfo.name
-            cell.amountLabel.text = "\(assetInfo.amount)"
-            cell.logoImageView.image = assetInfo.icon
-            cell.remitButton.isHidden = !assetInfo.canRemit
+        let cellRegistration = UICollectionView.CellRegistration<AssetInfoCollectionViewCell, Item> { (cell, indexPath, item) in
+            if case Item.asset(let assetInfo) = item {
+                cell.nameLabel.text = assetInfo.name
+                cell.amountLabel.text = "\(assetInfo.amount)"
+                cell.logoImageView.image = assetInfo.icon
+                cell.remitButton.isHidden = !assetInfo.canRemit
+            }
+        }
+        
+        let mcCellRegistration = UICollectionView.CellRegistration<MCInfoCollectionViewCell, Item> { (cell, indexPath, item) in
+            if case Item.merchandise(let merchandise) = item {
+                cell.subTitleLabel.text = merchandise.subtitle
+                cell.titleLabel.text = merchandise.title
+                cell.logoImageView.image = merchandise.icon
+            }
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration
@@ -87,8 +97,14 @@ extension ViewController: UICollectionViewDelegate {
             (supplementaryView, string, indexPath) in
         }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, AssetInfo>(collectionView: collectionView) { (collectionView, indexPath, item) -> AssetInfoCollectionViewCell? in
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        dataSource = UICollectionViewDiffableDataSource<Section, Item>(collectionView: collectionView) { (collectionView, indexPath, item) -> UICollectionViewCell? in
+            guard let section = Section(rawValue: indexPath.section) else { fatalError("Unknown section") }
+            switch section {
+            case .merchandise:
+                return collectionView.dequeueConfiguredReusableCell(using: mcCellRegistration, for: indexPath, item: item)
+            default:
+                return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+            }
         }
         
         dataSource.supplementaryViewProvider = { (view, kind, index) in
@@ -107,14 +123,16 @@ extension ViewController: UICollectionViewDelegate {
             return nil
         }
         
-//        let sections = Section.allCases
-        var snapshot = NSDiffableDataSourceSnapshot<Section, AssetInfo>()
-        [Section.tossBank, Section.asset, Section.consume].forEach {
+        //        let sections = Section.allCases
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Item>()
+        [Section.tossBank, Section.asset, Section.consume, Section.merchandise].forEach {
             snapshot.appendSections([$0])
             if $0 == .asset {
-                snapshot.appendItems(AssetInfo.samples)
+                snapshot.appendItems(AssetInfo.samples.map{ Item.asset($0) })
             } else if $0 == .consume {
-                snapshot.appendItems([AssetInfo.consumeSample])
+                snapshot.appendItems([Item.asset(AssetInfo.consumeSample)])
+            } else if $0 == .merchandise {
+                snapshot.appendItems(MerchandiseInfo.samples.map{ Item.merchandise($0) })
             }
         }
         
@@ -129,20 +147,32 @@ extension ViewController: UICollectionViewDelegate {
             
             let section: NSCollectionLayoutSection
             
-            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
-            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
-            
-            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
-            let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-            
-            section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
-            
-            let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(
-                elementKind: ViewController.sectionBackgroundElementKind)
-            sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
-            section.decorationItems = [sectionBackgroundDecoration]
+            if sectionKind == .merchandise {
+                
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.33), heightDimension: .fractionalWidth(0.36))
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 14
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            } else {
+                let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
+                
+                let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
+                let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+                
+                section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16)
+                
+                let sectionBackgroundDecoration = NSCollectionLayoutDecorationItem.background(
+                    elementKind: ViewController.sectionBackgroundElementKind)
+                sectionBackgroundDecoration.contentInsets = NSDirectionalEdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16)
+                section.decorationItems = [sectionBackgroundDecoration]
+            }
             
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: sectionIndex == 0 ? .estimated(72) : .estimated(60))

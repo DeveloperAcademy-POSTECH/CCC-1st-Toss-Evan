@@ -28,6 +28,7 @@ class MCInfoCollectionViewCell: UICollectionViewCell {
     lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = .preferredFont(for: .headline, weight: .semibold)
+        label.numberOfLines = 0
         label.textColor = .theme.darkGray
         return label
     }()
@@ -51,16 +52,19 @@ class MCInfoCollectionViewCell: UICollectionViewCell {
         [stackView, logoImageView].forEach { addSubview($0) }
             
         logoImageView.snp.makeConstraints{
-            $0.trailing.equalToSuperview().inset(10)
-            $0.bottom.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16)
             $0.height.equalToSuperview().multipliedBy(0.25)
             $0.width.equalTo(logoImageView.snp.height)
         }
         
         stackView.snp.makeConstraints{
-            $0.leading.equalToSuperview().inset(10)
-            $0.top.equalToSuperview().inset(10)
+            $0.leading.equalToSuperview().inset(16)
+            $0.top.equalToSuperview().inset(16)
         }
+        
+        self.backgroundColor = .theme.groupedBackground
+        self.layer.cornerRadius = 24
         
         if let data = data {
             updateCell(data: data)
