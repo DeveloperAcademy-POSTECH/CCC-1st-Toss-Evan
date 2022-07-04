@@ -47,6 +47,42 @@ class ViewController: UIViewController {
     
     lazy var stackView = UIStackView(arrangedSubviews: [])
     
+    lazy var stickyFooter: UIView = {
+        let stickyFooter = UIView(frame: .zero)
+        let label = UILabel(frame: .zero)
+        label.text = "소비"
+        label.font = .preferredFont(for: .title2, weight: .bold)
+        stickyFooter.addSubview(label)
+        stickyFooter.backgroundColor = .theme.groupedBackground
+        stickyFooter.layer.borderWidth = 0.6
+        
+        label.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(40)
+            $0.centerY.equalToSuperview()
+        }
+        
+        return stickyFooter
+    }()
+    
+    var isSticky: Bool = true {
+        didSet {
+            if isSticky {
+                stickyFooter.isHidden = false
+                stickyFooter.snp.remakeConstraints {
+                    $0.height.equalTo(62)
+                    $0.leading.equalToSuperview()
+                    $0.trailing.equalToSuperview()
+                    $0.bottom.equalTo(stackView.snp.top)
+                }
+                UIView.animate(withDuration: 0.2) {
+                    self.stickyFooter.layoutIfNeeded()
+                }
+            } else {
+                stickyFooter.isHidden = true
+            }
+        }
+    }
+    
     lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl(frame: .zero)
         control.addTarget(self, action: #selector(endRefresh), for: .valueChanged)
@@ -59,12 +95,26 @@ class ViewController: UIViewController {
         configureNavbar()
         configureTabBar()
         configureHierarchy()
+        view.addSubview(stickyFooter)
         view.bringSubviewToFront(stackView)
+        stickyFooter.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(62)
+            $0.bottom.equalTo(stackView.snp.top)
+            $0.centerX.equalTo(stackView.snp.centerX)
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        stickyFooter.layer.borderColor = UIColor.theme.background.cgColor
         stackView.layer.borderColor = UIColor.theme.background.cgColor
+    }
+    
+    override func viewDidLayoutSubviews() {
+        stickyFooter.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+        stackView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
     }
 }
 
@@ -219,6 +269,15 @@ extension ViewController: UICollectionViewDelegate {
         return layout
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        if scrollView.contentOffset.y > 25.6 {
+            isSticky = false
+        } else {
+            isSticky = true
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("hi")
     }
@@ -301,7 +360,6 @@ extension ViewController {
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 40, bottom: 0, right: 40)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.backgroundColor = .theme.groupedBackground
-        stackView.layer.cornerRadius = 20
         stackView.layer.borderWidth = 0.6
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
@@ -320,12 +378,6 @@ extension ViewController {
             self?.refreshControl.endRefreshing()
         }
     }
-//
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if refreshControl.isRefreshing {
-//            refreshControl.endRefreshing()
-//        }
-//    }
 }
 
 enum TabBarItem: String, CaseIterable {
