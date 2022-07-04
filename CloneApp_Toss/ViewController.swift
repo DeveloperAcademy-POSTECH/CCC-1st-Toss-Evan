@@ -283,8 +283,8 @@ extension ViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = ItemViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = AuthViewController()
+        present(vc, animated: true)
     }
 }
 

@@ -15,6 +15,7 @@
 		2174B06D287028300010E9BC /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2174B06C287028300010E9BC /* Data.swift */; };
 		21841B1E287317990092305A /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21841B1D287317990092305A /* WebViewController.swift */; };
 		21841B2228731FBE0092305A /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21841B2128731FBE0092305A /* ItemViewController.swift */; };
+		21841B24287320F60092305A /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21841B23287320F60092305A /* AuthViewController.swift */; };
 		2188A776286EB03A00AE38AE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A775286EB03A00AE38AE /* AppDelegate.swift */; };
 		2188A778286EB03A00AE38AE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A777286EB03A00AE38AE /* SceneDelegate.swift */; };
 		2188A77A286EB03A00AE38AE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2188A779286EB03A00AE38AE /* ViewController.swift */; };
@@ -35,6 +36,7 @@
 		2174B06C287028300010E9BC /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		21841B1D287317990092305A /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		21841B2128731FBE0092305A /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		21841B23287320F60092305A /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
 		2188A772286EB03A00AE38AE /* CloneApp_Toss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloneApp_Toss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2188A775286EB03A00AE38AE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2188A777286EB03A00AE38AE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				2188A777286EB03A00AE38AE /* SceneDelegate.swift */,
 				2188A779286EB03A00AE38AE /* ViewController.swift */,
 				21841B2128731FBE0092305A /* ItemViewController.swift */,
+				21841B23287320F60092305A /* AuthViewController.swift */,
 				21654D7228715553008BD9C8 /* CollectionViewHeaders+Footers.swift */,
 				2198658228708E6D00CB36C5 /* AssetInfoCollectionViewCell.swift */,
 				21654D702871524B008BD9C8 /* SectionBackgroundView.swift */,
@@ -249,6 +252,7 @@
 				21841B2228731FBE0092305A /* ItemViewController.swift in Sources */,
 				2174B06B287025830010E9BC /* Font.swift in Sources */,
 				21654D6F287150E2008BD9C8 /* MCInfoCollectionViewCell.swift in Sources */,
+				21841B24287320F60092305A /* AuthViewController.swift in Sources */,
 				2198658328708E6D00CB36C5 /* AssetInfoCollectionViewCell.swift in Sources */,
 				2188A776286EB03A00AE38AE /* AppDelegate.swift in Sources */,
 				2188A778286EB03A00AE38AE /* SceneDelegate.swift in Sources */,
