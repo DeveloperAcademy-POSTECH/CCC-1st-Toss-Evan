@@ -34,8 +34,6 @@ class ViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     
-    var webController = WebViewController()
-    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -388,7 +386,7 @@ extension ViewController {
     }
     
     @objc func presentWebView() {
-        present(webController, animated: true)
+        present(WebViewController(), animated: true)
     }
     
     @objc func pushVC() {
