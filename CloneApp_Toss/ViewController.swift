@@ -332,6 +332,8 @@ extension ViewController {
         stackView.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
         stackView.isLayoutMarginsRelativeArrangement = true
         
+        [talkButton, notiButton, plusButton].forEach{$0.addTarget(self, action: #selector(pushVC), for: .touchUpInside)}
+        
         self.navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: stackView)
         ]
@@ -387,6 +389,11 @@ extension ViewController {
     
     @objc func presentWebView() {
         present(webController, animated: true)
+    }
+    
+    @objc func pushVC() {
+        let vc = ItemViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
