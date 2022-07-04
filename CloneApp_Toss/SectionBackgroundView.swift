@@ -21,6 +21,6 @@ class SectionBackgroundView: UICollectionReusableView {
 extension SectionBackgroundView {
     func configure() {
         backgroundColor = .theme.groupedBackground
-        layer.cornerRadius = 20
+        layer.cornerRadius = 24
     }
 }

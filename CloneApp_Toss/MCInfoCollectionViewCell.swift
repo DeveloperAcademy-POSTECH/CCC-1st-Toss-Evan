@@ -47,6 +47,16 @@ class MCInfoCollectionViewCell: UICollectionViewCell {
         fatalError("not implemnted")
     }
     
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                backgroundColor = .black
+            } else {
+                backgroundColor = .theme.groupedBackground
+            }
+        }
+    }
+    
     func configureCell(data: MerchandiseInfo? = nil) {
         [subTitleLabel, titleLabel].forEach { stackView.addArrangedSubview($0) }
         [stackView, logoImageView].forEach { addSubview($0) }

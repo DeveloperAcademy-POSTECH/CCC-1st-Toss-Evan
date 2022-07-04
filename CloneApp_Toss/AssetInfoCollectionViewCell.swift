@@ -58,12 +58,22 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
         fatalError("not implemnted")
     }
     
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                backgroundColor = .black
+            } else {
+                backgroundColor = .theme.groupedBackground
+            }
+        }
+    }
+    
     func configureCell(data: AssetInfo? = nil) {
         [nameLabel, amountLabel].forEach { stackView.addArrangedSubview($0) }
         [stackView, logoImageView, remitButton].forEach { addSubview($0) }
             
         logoImageView.snp.makeConstraints{
-            $0.leading.equalToSuperview()
+            $0.leading.equalToSuperview().inset(24)
             $0.height.equalToSuperview().multipliedBy(0.5)
             $0.width.equalTo(logoImageView.snp.height)
             $0.centerY.equalToSuperview()
@@ -75,7 +85,7 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
         }
         
         remitButton.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(24)
             $0.centerY.equalToSuperview()
         }
         

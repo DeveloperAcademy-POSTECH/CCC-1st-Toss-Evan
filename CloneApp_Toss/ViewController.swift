@@ -26,6 +26,7 @@ class ViewController: UIViewController {
             }
         }
     }
+    
     static let sectionHeaderElementKind = "section-header-element-kind"
     static let sectionCenterHeaderElementKind = "sectionCenter-header-element-kind"
     static let sectionFooterElementKind = "section-footer-element-kind"
@@ -33,8 +34,60 @@ class ViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     
-    var collectionView: UICollectionView!
-    let stackView = UIStackView(arrangedSubviews: [])
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
+        collectionView.backgroundColor = .clear
+        collectionView.refreshControl = refreshControl
+        collectionView.delegate = self
+        collectionView.layer.cornerRadius = 20
+        return collectionView
+    }()
+    
+    lazy var stackView = UIStackView(arrangedSubviews: [])
+    
+    lazy var stickyFooter: UIView = {
+        let stickyFooter = UIView(frame: .zero)
+        let label = UILabel(frame: .zero)
+        label.text = "소비"
+        label.font = .preferredFont(for: .title2, weight: .bold)
+        stickyFooter.addSubview(label)
+        stickyFooter.backgroundColor = .theme.groupedBackground
+        stickyFooter.layer.borderWidth = 0.6
+        
+        label.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(40)
+            $0.centerY.equalToSuperview()
+        }
+        
+        return stickyFooter
+    }()
+    
+    var isSticky: Bool = true {
+        didSet {
+            if isSticky {
+                stickyFooter.isHidden = false
+                stickyFooter.snp.remakeConstraints {
+                    $0.height.equalTo(62)
+                    $0.leading.equalToSuperview()
+                    $0.trailing.equalToSuperview()
+                    $0.bottom.equalTo(stackView.snp.top)
+                }
+                UIView.animate(withDuration: 0.2) {
+                    self.stickyFooter.layoutIfNeeded()
+                }
+            } else {
+                stickyFooter.isHidden = true
+            }
+        }
+    }
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl(frame: .zero)
+        control.addTarget(self, action: #selector(endRefresh), for: .valueChanged)
+        return control
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,18 +95,31 @@ class ViewController: UIViewController {
         configureNavbar()
         configureTabBar()
         configureHierarchy()
+        view.addSubview(stickyFooter)
         view.bringSubviewToFront(stackView)
+        stickyFooter.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.height.equalTo(62)
+            $0.bottom.equalTo(stackView.snp.top)
+            $0.centerX.equalTo(stackView.snp.centerX)
+        }
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        stickyFooter.layer.borderColor = UIColor.theme.background.cgColor
+        stackView.layer.borderColor = UIColor.theme.background.cgColor
+    }
+    
+    override func viewDidLayoutSubviews() {
+        stickyFooter.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+        stackView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
     }
 }
 
 extension ViewController: UICollectionViewDelegate {
     func configureHierarchy() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 40, right: 0)
-        collectionView.backgroundColor = .clear
-        collectionView.delegate = self
-        collectionView.layer.cornerRadius = 20
         view.addSubview(collectionView)
         
         collectionView.snp.makeConstraints{
@@ -160,7 +226,6 @@ extension ViewController: UICollectionViewDelegate {
             } else {
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 24, bottom: 0, trailing: 24)
                 
                 let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(80))
                 let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -175,7 +240,7 @@ extension ViewController: UICollectionViewDelegate {
             }
             
             let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                    heightDimension: sectionIndex == 0 ? .estimated(72) : .estimated(60))
+                                                    heightDimension: sectionIndex == 0 ? .absolute(84) : .estimated(60))
             
             let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                     heightDimension: .absolute(16))
@@ -202,6 +267,15 @@ extension ViewController: UICollectionViewDelegate {
             SectionBackgroundView.self,
             forDecorationViewOfKind: ViewController.sectionBackgroundElementKind)
         return layout
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        if scrollView.contentOffset.y > 25.6 {
+            isSticky = false
+        } else {
+            isSticky = true
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -286,15 +360,22 @@ extension ViewController {
         stackView.layoutMargins = UIEdgeInsets(top: 10, left: 40, bottom: 0, right: 40)
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.backgroundColor = .theme.groupedBackground
-        stackView.layer.cornerRadius = 20
         stackView.layer.borderWidth = 0.6
-        stackView.layer.borderColor = UIColor.theme.background.cgColor
         self.view.addSubview(stackView)
         stackView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
+        }
+    }
+}
+
+extension ViewController {
+    
+    @objc func endRefresh() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
 }
