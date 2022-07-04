@@ -51,10 +51,20 @@ struct TossAssetImageTheme {
 }
 
 extension UIView {
-   func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
         let mask = CAShapeLayer()
         mask.path = path.cgPath
         layer.mask = mask
+    }
+}
+
+extension Int {
+    func decimalWon() -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let result = numberFormatter.string(from: NSNumber(value: self))! + " 원"
+        
+        return result
     }
 }

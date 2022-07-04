@@ -34,6 +34,8 @@ class ViewController: UIViewController {
     
     var dataSource: UICollectionViewDiffableDataSource<Section, Item>! = nil
     
+    var webController = WebViewController()
+    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -132,7 +134,7 @@ extension ViewController: UICollectionViewDelegate {
         let cellRegistration = UICollectionView.CellRegistration<AssetInfoCollectionViewCell, Item> { (cell, indexPath, item) in
             if case Item.asset(let assetInfo) = item {
                 cell.nameLabel.text = assetInfo.name
-                cell.amountLabel.text = "\(assetInfo.amount)"
+                cell.amountLabel.text = assetInfo.amount.decimalWon()
                 cell.logoImageView.image = assetInfo.icon
                 cell.remitButton.isHidden = !assetInfo.canRemit
             }
@@ -281,7 +283,8 @@ extension ViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("hi")
+        let vc = ItemViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -298,6 +301,7 @@ extension ViewController {
         iconButton.imageView?.contentMode = .scaleAspectFit
         let leftStackView = UIStackView(arrangedSubviews: [iconButton])
         leftStackView.isLayoutMarginsRelativeArrangement = true
+        iconButton.addTarget(self, action: #selector(presentWebView), for: .touchUpInside)
         leftStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         let iconBarItem = UIBarButtonItem(customView: leftStackView)
         self.navigationItem.leftBarButtonItem = iconBarItem
@@ -379,6 +383,10 @@ extension ViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             self?.refreshControl.endRefreshing()
         }
+    }
+    
+    @objc func presentWebView() {
+        present(webController, animated: true)
     }
 }
 
