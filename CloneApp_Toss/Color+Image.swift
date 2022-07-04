@@ -23,6 +23,7 @@ struct TossColorTheme {
     let groupedBackground = UIColor(named: "TossGroupedBackground")!
     let secondary = UIColor(named: "TossSecondary")!
     let tertiary = UIColor(named: "TossTertiary")!
+    let groupSelected = UIColor(named: "TossGroupSelected")!
     let darkGray = UIColor(named: "TossDarkGray")!
     let lightGray = UIColor(named: "TossLightGray")!
 }

@@ -61,7 +61,7 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
     override var isHighlighted: Bool {
         didSet {
             if isHighlighted {
-                backgroundColor = .black
+                backgroundColor = .theme.groupSelected
             } else {
                 backgroundColor = .theme.groupedBackground
             }

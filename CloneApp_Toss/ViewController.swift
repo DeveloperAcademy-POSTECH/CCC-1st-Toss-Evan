@@ -271,6 +271,8 @@ extension ViewController: UICollectionViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(scrollView.contentOffset.y)
+        print(scrollView.contentSize.height)
+        
         if scrollView.contentOffset.y > 25.6 {
             isSticky = false
         } else {
