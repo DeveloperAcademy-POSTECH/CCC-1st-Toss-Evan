@@ -15,9 +15,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene) // SceneDelegate의 프로퍼티에 설정해줌
-        let mainViewController = UIViewController() // 맨 처음 보여줄 ViewController
-
-        window?.rootViewController = mainViewController
+        let mainViewController = ViewController() // 맨 처음 보여줄 ViewController
+        let navigationController = UINavigationController(rootViewController: mainViewController)
+        let navigationApperance = UINavigationBarAppearance()
+        navigationApperance.backgroundEffect = UIBlurEffect(style: .systemUltraThinMaterial)
+        navigationApperance.shadowColor = .clear
+        navigationController.navigationBar.standardAppearance = navigationApperance
+//        UINavigationBar.appearance().scrollEdgeAppearance = navigationApperance
+        
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
