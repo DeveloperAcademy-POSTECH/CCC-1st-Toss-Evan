@@ -8,7 +8,11 @@
 import UIKit
 import SnapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, InnerButtonTouchDelegate {
+    
+    func touch() {
+        self.navigationController?.pushViewController(ItemViewController(), animated: true)
+    }
     
     enum Section: Int, Hashable, CaseIterable, CustomStringConvertible {
         case tossBank, asset, consume, merchandise
@@ -135,6 +139,7 @@ extension ViewController: UICollectionViewDelegate {
                 cell.amountLabel.text = assetInfo.amount.decimalWon()
                 cell.logoImageView.image = assetInfo.icon
                 cell.remitButton.isHidden = !assetInfo.canRemit
+                cell.touchDelegate = self
             }
         }
         

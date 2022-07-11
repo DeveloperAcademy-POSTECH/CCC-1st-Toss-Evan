@@ -8,8 +8,13 @@
 import UIKit
 import SnapKit
 
+protocol InnerButtonTouchDelegate {
+    func touch()
+}
+
 class AssetInfoCollectionViewCell: UICollectionViewCell {
     static let identifier = "AssetInfoCollectionViewCell"
+    var touchDelegate: InnerButtonTouchDelegate?
     
     lazy var stackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
@@ -47,6 +52,7 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         button.backgroundColor = .theme.tertiary
         button.layer.cornerRadius = 6
+        button.addTarget(self, action: #selector(remit), for: .touchUpInside)
         return button
     }()
     
@@ -99,5 +105,9 @@ class AssetInfoCollectionViewCell: UICollectionViewCell {
         amountLabel.text = "\(data.amount) 원"
         logoImageView.image = data.icon
         remitButton.isHidden = !data.canRemit
+    }
+    
+    @objc private func remit() {
+        self.touchDelegate?.touch()
     }
 }
