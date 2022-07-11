@@ -49,7 +49,7 @@ class ViewController: UIViewController, InnerButtonTouchDelegate {
         return collectionView
     }()
     
-    lazy var stackView = UIStackView(arrangedSubviews: [])
+    lazy var tabBarView = UIStackView(arrangedSubviews: [])
     
     lazy var stickyFooter: UIView = {
         let stickyFooter = UIView(frame: .zero)
@@ -71,18 +71,31 @@ class ViewController: UIViewController, InnerButtonTouchDelegate {
     var isSticky: Bool = true {
         didSet {
             if isSticky {
-                stickyFooter.isHidden = false
+//                stickyFooter.isHidden = false
                 stickyFooter.snp.remakeConstraints {
                     $0.height.equalTo(62)
                     $0.leading.equalToSuperview()
                     $0.trailing.equalToSuperview()
-                    $0.bottom.equalTo(stackView.snp.top)
+                    $0.bottom.equalTo(tabBarView.snp.top)
                 }
+                self.stickyFooter.alpha = 1
                 UIView.animate(withDuration: 0.2) {
                     self.stickyFooter.layoutIfNeeded()
                 }
             } else {
-                stickyFooter.isHidden = true
+                stickyFooter.snp.remakeConstraints {
+                    $0.height.equalTo(62)
+                    $0.leading.equalToSuperview().inset(16)
+                    $0.trailing.equalToSuperview().inset(16)
+                    $0.bottom.equalTo(tabBarView.snp.top)
+                }
+                UIView.animate(withDuration: 0.2, delay: 0) {
+                    self.stickyFooter.layoutIfNeeded()
+                } completion: { _ in
+                    UIView.animate(withDuration: 0, delay: 0.2) {
+                        self.stickyFooter.alpha = 0
+                    }
+                }
             }
         }
     }
@@ -100,25 +113,25 @@ class ViewController: UIViewController, InnerButtonTouchDelegate {
         configureTabBar()
         configureHierarchy()
         view.addSubview(stickyFooter)
-        view.bringSubviewToFront(stackView)
+        view.bringSubviewToFront(tabBarView)
         stickyFooter.snp.makeConstraints {
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.height.equalTo(62)
-            $0.bottom.equalTo(stackView.snp.top)
-            $0.centerX.equalTo(stackView.snp.centerX)
+            $0.bottom.equalTo(tabBarView.snp.top)
+            $0.centerX.equalTo(tabBarView.snp.centerX)
         }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         stickyFooter.layer.borderColor = UIColor.theme.background.cgColor
-        stackView.layer.borderColor = UIColor.theme.background.cgColor
+        tabBarView.layer.borderColor = UIColor.theme.background.cgColor
     }
     
     override func viewDidLayoutSubviews() {
         stickyFooter.roundCorners(corners: [.topLeft, .topRight], radius: 20)
-        stackView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
+        tabBarView.roundCorners(corners: [.topLeft, .topRight], radius: 20)
     }
 }
 
@@ -130,7 +143,7 @@ extension ViewController: UICollectionViewDelegate {
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.top.equalToSuperview()
-            $0.bottom.equalTo(stackView.snp.top)
+            $0.bottom.equalTo(tabBarView.snp.top)
         }
         
         let cellRegistration = UICollectionView.CellRegistration<AssetInfoCollectionViewCell, Item> { (cell, indexPath, item) in
@@ -363,17 +376,17 @@ extension ViewController {
             tabButton.alignment = .center
             tabButton.spacing = 4
             
-            stackView.addArrangedSubview(tabButton)
+            tabBarView.addArrangedSubview(tabButton)
         }
         
-        stackView.distribution = .equalSpacing
-        stackView.axis = .horizontal
-        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 40, bottom: 0, right: 40)
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.backgroundColor = .theme.groupedBackground
-        stackView.layer.borderWidth = 0.6
-        self.view.addSubview(stackView)
-        stackView.snp.makeConstraints {
+        tabBarView.distribution = .equalSpacing
+        tabBarView.axis = .horizontal
+        tabBarView.layoutMargins = UIEdgeInsets(top: 10, left: 40, bottom: 0, right: 40)
+        tabBarView.isLayoutMarginsRelativeArrangement = true
+        tabBarView.backgroundColor = .theme.groupedBackground
+        tabBarView.layer.borderWidth = 0.6
+        self.view.addSubview(tabBarView)
+        tabBarView.snp.makeConstraints {
             $0.width.equalToSuperview()
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview()
