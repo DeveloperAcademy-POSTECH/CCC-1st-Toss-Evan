@@ -71,31 +71,18 @@ class ViewController: UIViewController, InnerButtonTouchDelegate {
     var isSticky: Bool = true {
         didSet {
             if isSticky {
-//                stickyFooter.isHidden = false
+                stickyFooter.isHidden = false
                 stickyFooter.snp.remakeConstraints {
                     $0.height.equalTo(62)
                     $0.leading.equalToSuperview()
                     $0.trailing.equalToSuperview()
                     $0.bottom.equalTo(tabBarView.snp.top)
                 }
-                self.stickyFooter.alpha = 1
                 UIView.animate(withDuration: 0.2) {
                     self.stickyFooter.layoutIfNeeded()
                 }
             } else {
-                stickyFooter.snp.remakeConstraints {
-                    $0.height.equalTo(62)
-                    $0.leading.equalToSuperview().inset(16)
-                    $0.trailing.equalToSuperview().inset(16)
-                    $0.bottom.equalTo(tabBarView.snp.top)
-                }
-                UIView.animate(withDuration: 0.2, delay: 0) {
-                    self.stickyFooter.layoutIfNeeded()
-                } completion: { _ in
-                    UIView.animate(withDuration: 0, delay: 0.2) {
-                        self.stickyFooter.alpha = 0
-                    }
-                }
+                stickyFooter.isHidden = true
             }
         }
     }
@@ -288,9 +275,6 @@ extension ViewController: UICollectionViewDelegate {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
-        print(scrollView.contentSize.height)
-        
         if scrollView.contentOffset.y > 25.6 {
             isSticky = false
         } else {
